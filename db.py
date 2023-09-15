@@ -35,7 +35,7 @@ class DB:
 
 
     def crearModelo(self):
-        with open('./Creacion Base de Datos.sql', 'r', encoding='utf-8') as archivo:
+        with open('./querys/Creacion Base de Datos.sql', 'r', encoding='utf-8') as archivo:
             SCRIPT = archivo.read()
         commands = SCRIPT.split(";")
         try:
@@ -54,7 +54,7 @@ class DB:
 
     def cargarTablaTemporal(self):
         # Crea las tablas temporales en la base de datos
-        with open('./Creacion Tablas Temporales.sql', 'r', encoding='utf-8') as archivo:
+        with open('./querys/Creacion Tablas Temporales.sql', 'r', encoding='utf-8') as archivo:
             SCRIPT = archivo.read()
         commands = SCRIPT.split(";")
         try:
@@ -84,6 +84,7 @@ class DB:
                     self.cursor.execute(query) 
                     self.connection.commit()
                 except Exception as e:
+                    self.close()
                     return ({"Mensaje": "Error al cargar la tabla temporal -> " + str(e.args)})
         
         # Carga el archivo de partidos a su tabla temporal
@@ -102,6 +103,7 @@ class DB:
                     self.cursor.execute(query) 
                     self.connection.commit()
                 except Exception as e:
+                    self.close()
                     return ({"Mensaje": "Error al cargar la tabla temporal -> " + str(e.args)})
 
 
@@ -117,6 +119,7 @@ class DB:
                     self.cursor.execute(query) 
                     self.connection.commit()
                 except Exception as e:
+                    self.close()
                     return ({"Mensaje": "Error al cargar la tabla temporal -> " + str(e.args)})
 
         
@@ -132,6 +135,7 @@ class DB:
                     self.cursor.execute(query) 
                     self.connection.commit()
                 except Exception as e:
+                    self.close()
                     return ({"Mensaje": "Error al cargar la tabla temporal -> " + str(e.args)})
                     
             
@@ -153,6 +157,7 @@ class DB:
                     self.cursor.execute(query) 
                     self.connection.commit()
                 except Exception as e:
+                    self.close()
                     return ({"Mensaje": "Error al cargar la tabla temporal -> " + str(e.args)})
                     
         
@@ -168,6 +173,7 @@ class DB:
                     self.cursor.execute(query) 
                     self.connection.commit()
                 except Exception as e:
+                    self.close()
                     return ({"Mensaje": "Error al cargar la tabla temporal -> " + str(e.args)})
                     
 
@@ -189,12 +195,13 @@ class DB:
                     self.cursor.execute(query) 
                     self.connection.commit()
                 except Exception as e:
+                    self.close()
                     return ({"Mensaje": "Error al cargar la tabla temporal -> " + str(e.args)})
                     
 
 
         # Carga los datos de las tablas temporales a las tablas del modelo
-        with open('./Carga de Modelo.sql', 'r', encoding='utf-8') as archivo:
+        with open('./querys/Carga de Modelo.sql', 'r', encoding='utf-8') as archivo:
             SCRIPT = archivo.read()
         commands = SCRIPT.split(";")
         try:
@@ -220,6 +227,201 @@ class DB:
 
         except Exception as e:
             raise
+    
+    
+    def consulta1(self):
+        with open('./querys/Consulta1.sql', 'r', encoding='utf-8') as archivo:
+            try:
+                self.cursor.execute(archivo.read())
+                resultado = self.cursor.fetchall()
+                datos = []
+                for registro in resultado:
+                    objeto = {
+                        "Presidente" : registro[0],
+                        "Vicepresidente" : registro[1],
+                        "Partido" : registro[2]
+                    }
+                    datos.append(objeto)
+                return (datos)
+            except Exception as e:
+                return ({"Mensaje": "Error al realizar la consulta -> " + str(e.args)})
+    
+    
+    def consulta2(self):
+        with open('./querys/Consulta2.sql', 'r', encoding='utf-8') as archivo:
+            try:
+                self.cursor.execute(archivo.read())
+                resultado = self.cursor.fetchall()
+                datos = []
+                for registro in resultado:
+                    objeto = {
+                        "Cantidad" : int(registro[0]),
+                        "Partido" : registro[1]
+                    }
+                    datos.append(objeto)
+                return (datos)
+            except Exception as e:
+                return ({"Mensaje": "Error al realizar la consulta -> " + str(e.args)})
+    
+    
+    def consulta3(self):
+        with open('./querys/Consulta3.sql', 'r', encoding='utf-8') as archivo:
+            try:
+                self.cursor.execute(archivo.read())
+                resultado = self.cursor.fetchall()
+                datos = []
+                for registro in resultado:
+                    objeto = {
+                        "Nombre" : registro[0],
+                        "Partido" : registro[1]
+                    }
+                    datos.append(objeto)
+                return (datos)
+            except Exception as e:
+                return ({"Mensaje": "Error al realizar la consulta -> " + str(e.args)})
+            
+
+    def consulta4(self):
+        with open('./querys/Consulta4.sql', 'r', encoding='utf-8') as archivo:
+            try:
+                self.cursor.execute(archivo.read())
+                resultado = self.cursor.fetchall()
+                datos = []
+                for registro in resultado:
+                    objeto = {
+                        "Cantidad" : int(registro[0]),
+                        "Partido" : registro[1]
+                    }
+                    datos.append(objeto)
+                return (datos)
+            except Exception as e:
+                return ({"Mensaje": "Error al realizar la consulta -> " + str(e.args)})
+    
+
+    def consulta5(self):
+        with open('./querys/Consulta5.sql', 'r', encoding='utf-8') as archivo:
+            try:
+                self.cursor.execute(archivo.read())
+                resultado = self.cursor.fetchall()
+                datos = []
+                for registro in resultado:
+                    objeto = {
+                        "Departamento" : registro[0],
+                        "Cantidad de Votaciones" : registro[1]
+                    }
+                    datos.append(objeto)
+                return (datos)
+            except Exception as e:
+                return ({"Mensaje": "Error al realizar la consulta -> " + str(e.args)})
+    
+    
+    def consulta6(self):
+        with open('./querys/Consulta6.sql', 'r', encoding='utf-8') as archivo:
+            try:
+                self.cursor.execute(archivo.read())
+                resultado = self.cursor.fetchone()
+                return (resultado[0])
+            except Exception as e:
+                return ({"Mensaje": "Error al realizar la consulta -> " + str(e.args)})
+
+    
+    def consulta7(self):
+        with open('./querys/Consulta7.sql', 'r', encoding='utf-8') as archivo:
+            try:
+                self.cursor.execute(archivo.read())
+                resultado = self.cursor.fetchall()
+                datos = []
+                for registro in resultado:
+                    objeto = {
+                        "Cantidad" : registro[0],
+                        "Edad" : registro[1]
+                    }
+                    datos.append(objeto)
+                return (datos)
+            except Exception as e:
+                return ({"Mensaje": "Error al realizar la consulta -> " + str(e.args)})
+    
+
+    def consulta8(self):
+        with open('./querys/Consulta8.sql', 'r', encoding='utf-8') as archivo:
+            try:
+                self.cursor.execute(archivo.read())
+                resultado = self.cursor.fetchall()
+                datos = []
+                for registro in resultado:
+                    objeto = {
+                        "Presidente" : registro[0],
+                        "Vicepresidente" : registro[1],
+                        "Votos Totales" : registro[2]
+                    }
+                    datos.append(objeto)
+                return (datos)
+            except Exception as e:
+                return ({"Mensaje": "Error al realizar la consulta -> " + str(e.args)})
+    
+
+    def consulta9(self):
+        with open('./querys/Consulta9.sql', 'r', encoding='utf-8') as archivo:
+            try:
+                self.cursor.execute(archivo.read())
+                resultado = self.cursor.fetchall()
+                datos = []
+                for registro in resultado:
+                    objeto = {
+                        "Mesa" : registro[0],
+                        "Departamento" : registro[1],
+                        "Votos" : registro[2]
+                    }
+                    datos.append(objeto)
+                return (datos)
+            except Exception as e:
+                return ({"Mensaje": "Error al realizar la consulta -> " + str(e.args)})
+    
+
+    def consulta10(self):
+        with open('./querys/Consulta10.sql', 'r', encoding='utf-8') as archivo:
+            commands = archivo.read().split(";")
+            try:
+                self.cursor.execute(commands[0])
+                resultado = self.cursor.fetchall()
+                datos = []
+                for registro in resultado:
+                    objeto = {
+                        "Hora y Minuto" : registro[0].strftime("%H:%M"),
+                        "Votos" : registro[1]
+                    }
+                    datos.append(objeto)
+                
+                self.cursor.execute(commands[1])
+                resultado = self.cursor.fetchall()
+                datos2 = []
+                for registro in resultado:
+                    objeto = {
+                        "Hora" : str(registro[0])+":00",
+                        "Votos" : registro[1]
+                    }
+                    datos2.append(objeto)
+                return ({ "HM" : datos, "H" : datos2 })
+            except Exception as e:
+                return ({"Mensaje": "Error al realizar la consulta -> " + str(e.args)})
+    
+    
+    def consulta11(self):
+        with open('./querys/Consulta11.sql', 'r', encoding='utf-8') as archivo:
+            try:
+                self.cursor.execute(archivo.read())
+                resultado = self.cursor.fetchall()
+                datos = []
+                for registro in resultado:
+                    objeto = {
+                        "Genero" : registro[0],
+                        "Votos" : registro[1]
+                    }
+                    datos.append(objeto)
+                return (datos)
+            except Exception as e:
+                return ({"Mensaje": "Error al realizar la consulta -> " + str(e.args)})
+            
 
     def close(self):
         self.connection.close()
